@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useEffect } from "react";
+import lampOn from "/lamp_on.svg"
+import lampOff from "/lamp_off.svg"
 import './App.css'
 import Square from "./Components/Square.jsx";
 
@@ -11,7 +13,8 @@ function App() {
   const [status, setStatus] = useState("")  
   const [xScore, setXScore] = useState(0)
   const [oScore, setOScore] = useState(0)
-  const [latestWinner, setLatestWinner] = useState("")  
+  const [latestWinner, setLatestWinner] = useState("")
+  const [lightMode, setLightMode] = useState(true)
   
   // DISPLAYING X AND O ON BOARD
   function handleClick(clickedSquare) {
@@ -67,7 +70,7 @@ function App() {
               })
           }
       } else {
-          setStatus(`The current player is ${isXturn ? "X" : "O"}`)
+          setStatus(`Current player: ${isXturn ? "X" : "O"}`)
       }
   }, [squares, isXturn ])
     
@@ -82,21 +85,37 @@ function App() {
       const date = new Date();
       return date.getFullYear();
   }
+  
+  // FUNCTION FOR HANDLING LIGHT AND DARK MODES
+  function handleLightSwitch() {
+      setLightMode((prevLightMode) => {
+          return !prevLightMode;
+      });
+  }
+  
+  useEffect(() => {
+      document.body.style.backgroundColor = lightMode ? "white" : "black";
+      document.body.style.color = lightMode ? "black" : "white";
+  }, [lightMode]);
 
   return (
       <div className="game-container">
-          
+        <img
+            onClick={handleLightSwitch}
+            src={lightMode ? lampOn : lampOff}
+            alt="A bulb's icon for toggling light and dark mode"
+        />
         <h2>{status}</h2>
         <div className="board">
-            <Square value={squares[0]} onClick={() => handleClick(0)}></Square>
-            <Square value={squares[1]} onClick={() => handleClick(1)}></Square>
-            <Square value={squares[2]} onClick={() => handleClick(2)}></Square>
-            <Square value={squares[3]} onClick={() => handleClick(3)}></Square>
-            <Square value={squares[4]} onClick={() => handleClick(4)}></Square>
-            <Square value={squares[5]} onClick={() => handleClick(5)}></Square>
-            <Square value={squares[6]} onClick={() => handleClick(6)}></Square>
-            <Square value={squares[7]} onClick={() => handleClick(7)}></Square>
-            <Square value={squares[8]} onClick={() => handleClick(8)}></Square>
+            <Square lightMode={lightMode} value={squares[0]} onClick={() => handleClick(0)}></Square>
+            <Square lightMode={lightMode} value={squares[1]} onClick={() => handleClick(1)}></Square>
+            <Square lightMode={lightMode} value={squares[2]} onClick={() => handleClick(2)}></Square>
+            <Square lightMode={lightMode} value={squares[3]} onClick={() => handleClick(3)}></Square>
+            <Square lightMode={lightMode} value={squares[4]} onClick={() => handleClick(4)}></Square>
+            <Square lightMode={lightMode} value={squares[5]} onClick={() => handleClick(5)}></Square>
+            <Square lightMode={lightMode} value={squares[6]} onClick={() => handleClick(6)}></Square>
+            <Square lightMode={lightMode} value={squares[7]} onClick={() => handleClick(7)}></Square>
+            <Square lightMode={lightMode} value={squares[8]} onClick={() => handleClick(8)}></Square>
         </div>
         <div className="score-line">
             <h2><span className="player-marker">X</span> wins: {xScore}</h2>
