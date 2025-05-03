@@ -1,11 +1,13 @@
-:root {
+body {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  user-select: none;
 }
 
 .game-container {
+  width: 26rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,8 +17,10 @@
 .board {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0.25rem;
+  align-items: center;
+  justify-content: center;
   width: 24rem;
+  gap: 1rem;
 }
 
 .square {
@@ -26,9 +30,8 @@
   border: 0.1rem solid black;
   color: red;
   font-size: 3rem;
-  height: 7.2rem;
-  width: 7.2rem;
-  margin: 0.25rem;
+  height: 7.4rem;
+  width: 7.4rem;
 }
 
 .player-marker {
