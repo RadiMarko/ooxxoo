@@ -4,3 +4,14 @@
   padding: 2rem;
   text-align: center;
 }
+
+.game-container {
+}
+
+.square {
+  border: 0.1rem solid black;
+  font-size: 2.5rem;
+  height: 6rem;
+  width: 6rem;
+  margin: 0.25rem;
+}
