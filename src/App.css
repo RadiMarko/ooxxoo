@@ -44,7 +44,7 @@
   margin-top: 1.5rem;
 }
 
-button {
+.restart-button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -54,4 +54,10 @@ button {
   font-size: 1.5rem;
   background-color: white;
   border: 0.1rem solid black;
+  background-color: red;
+  color: white;
+}
+
+.restart-button:hover {
+  border-color: black;
 }

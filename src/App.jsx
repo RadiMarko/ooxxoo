@@ -100,7 +100,7 @@ function App() {
         </div>
         <div className="score-line">
             <h2><span className="player-marker">X</span> wins: {xScore}</h2>
-            <button onClick={restartGame}>Restart</button>
+            <button className="restart-button" onClick={restartGame}>Restart</button>
             <h2><span className="player-marker">O</span> wins: {oScore}</h2>
         </div>
         <p>RadiMarko - {getYear()}</p>
