@@ -4,10 +4,16 @@ import './App.css'
 import Square from "./Components/Square.jsx";
 
 function App() {
+    
+  // INITIALIZING STATE VARIABLES
   const [squares, setSquares] = useState(Array(9).fill(""))
   const [isXturn, setIsXturn] = useState(true)
   const [status, setStatus] = useState("")  
+  const [xScore, setXScore] = useState(0)
+  const [oScore, setOScore] = useState(0)
+  const [latestWinner, setLatestWinner] = useState("")  
   
+  // DISPLAYING X AND O ON BOARD
   function handleClick(clickedSquare) {
       
       let copySquares = [...squares]
@@ -17,6 +23,7 @@ function App() {
       setSquares(copySquares)
   }   
   
+  // CHECKING IF THERE'S A WINNER
   function getWinner(squares) {
       const winPatterns = [
           [0, 1, 2],
@@ -40,40 +47,63 @@ function App() {
       return null
   }
   
+  // HANDLING RESULT TEXT, SCORE COUNTER, AND SETTING VARIABLE FOR LAST WINNER
   useEffect(() => {
       if(!getWinner(squares) && squares.every(item => item !== "")) {
           setStatus("Draw")
       } else if (getWinner(squares)) {
           setStatus(`Winner is ${getWinner(squares)}`)
+          if (getWinner(squares) === "X") {
+              setXScore((prevXScore) => {
+                  prevXScore = prevXScore + 1;
+                  setLatestWinner("X")
+                  return prevXScore
+              })
+          } else if (getWinner(squares) === "O") {
+              setOScore((prevOScore) => {
+                  prevOScore = prevOScore + 1;
+                  setLatestWinner("Y")
+                  return prevOScore
+              })
+          }
       } else {
-          setStatus(`Next player is ${isXturn ? "X" : "O"}`)
+          setStatus(`The current player is ${isXturn ? "X" : "O"}`)
       }
   }, [squares, isXturn ])
     
+  // RESETTING GAME, THE PREVIOUS GAME'S LOSER STARTS NEXT ROUND
   function restartGame() {
-      setIsXturn(true);
+      setIsXturn(latestWinner === "X" ? false : true);
       setSquares(Array(9).fill(""))
-  }  
+  }
+
+  // FUNCTION FOR GETTING YEAR TO DISPLAY IN FOOTER
+  function getYear() {
+      const date = new Date();
+      return date.getFullYear();
+  }
 
   return (
       <div className="game-container">
-        <div className="row">
+          
+        <h2>{status}</h2>
+        <div className="board">
             <Square value={squares[0]} onClick={() => handleClick(0)}></Square>
             <Square value={squares[1]} onClick={() => handleClick(1)}></Square>
             <Square value={squares[2]} onClick={() => handleClick(2)}></Square>
-        </div>
-        <div className="row">
             <Square value={squares[3]} onClick={() => handleClick(3)}></Square>
             <Square value={squares[4]} onClick={() => handleClick(4)}></Square>
             <Square value={squares[5]} onClick={() => handleClick(5)}></Square>
-        </div>
-        <div className="row">
             <Square value={squares[6]} onClick={() => handleClick(6)}></Square>
-            <Square value={squares[7]}  onClick={() => handleClick(7)}></Square>
+            <Square value={squares[7]} onClick={() => handleClick(7)}></Square>
             <Square value={squares[8]} onClick={() => handleClick(8)}></Square>
         </div>
-        <h1>{status}</h1>
-        <button onClick={restartGame}>Restart</button>  
+        <div className="score-line">
+            <h2><span className="player-marker">X</span> wins: {xScore}</h2>
+            <button onClick={restartGame}>Restart</button>
+            <h2><span className="player-marker">O</span> wins: {oScore}</h2>
+        </div>
+        <p>RadiMarko - {getYear()}</p>
       </div>
   )
 }
